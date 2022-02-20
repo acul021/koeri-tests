@@ -55,6 +55,8 @@ class NetworkTest {
         assertThrows(RuntimeException.class, () -> new Network(root, invalidIPs));
         assertThrows(RuntimeException.class, () -> new Network(root, ip("0.0.0.0", "0.0.0.0")));
 
+        Arrays.asList("");
+
         Network testNetwork = new Network(root, IPs);
         IPs.clear();
         assertNotEquals(0, testNetwork.list().size());
