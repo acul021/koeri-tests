@@ -68,6 +68,7 @@ class NetworkTest {
         assertThrows(ParseException.class, () -> new Network(" "));
         assertThrows(ParseException.class, () -> new Network("$%?!§%*ÄÜÖöäü:;-_"));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 (1.1.1.1))"));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0 (1.1.1.1 2.2.2.2 )3.3.3.3 4.4.4.4())"));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0  1.1.1.1)"));
         assertThrows(ParseException.class, () -> new Network(" (0.0.0.0 1.1.1.1)"));
