@@ -83,6 +83,9 @@ class NetworkTest {
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0 (0.0.0.0 1.1.1.1))"));
         assertThrows(ParseException.class, () -> new Network("(1.1.1.1 (2.2.2.2 0.0.0.0) (3.3.3.3 0.0.0.0))"));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0 (1.1.1.1 0.0.0.0))"));
+        assertThrows(ParseException.class, () -> new Network(("(0.0.0.0 1.1.1.1))")));
+        assertThrows(ParseException.class, () -> new Network((")(0.0.0.0 1.1.1.1)")));
+        assertThrows(ParseException.class, () -> new Network(("(0.0.0.0 1.1.1.1) (2.2.2.2 1.1.1.1)")));
     }
 
     @Test
@@ -95,7 +98,7 @@ class NetworkTest {
         net = new Network("(1.1.1.1 0.0.0.0)");
         assertIterableEquals(ip("0.0.0.0", "1.1.1.1"), net.list());
         net = new Network(
-            "(9.9.9.9 (8.8.8.8 (7.7.7.7 (6.6.6.6 (5.5.5.5 (4.4.4.4 (3.3.3.3 (2.2.2.2 (1.1.1.1 0.0.0.0))))))))))");
+            "(9.9.9.9 (8.8.8.8 (7.7.7.7 (6.6.6.6 (5.5.5.5 (4.4.4.4 (3.3.3.3 (2.2.2.2 (1.1.1.1 0.0.0.0)))))))))");
         assertIterableEquals(
             ip("0.0.0.0", "1.1.1.1", "2.2.2.2", "3.3.3.3", "4.4.4.4", "5.5.5.5", "6.6.6.6", "7.7.7.7", "8.8.8.8",
                 "9.9.9.9"),
@@ -141,7 +144,7 @@ class NetworkTest {
         assertEquals("(0.0.0.0 1.1.1.1)", net.toString(ip("0.0.0.0")));
         assertEquals("(1.0.0.0 1.0.0.1 1.0.0.2)", net.toString(ip("1.0.0.0")));
         assertTrue(net.add(net("(1.1.1.1 2.2.2.2 1.0.0.1)")));
-        assertEquals("(1.1.1.1 0.0.0.0 (1.0.0.1 (1.0.0.0 1.0.0.2)) 2.2.2.2)",net.toString(ip("1.1.1.1")));
+        assertEquals("(1.1.1.1 0.0.0.0 (1.0.0.1 (1.0.0.0 1.0.0.2)) 2.2.2.2)", net.toString(ip("1.1.1.1")));
     }
 
     @Test
@@ -263,7 +266,6 @@ class NetworkTest {
         assertEquals(SMALL_NET_ALTERNATIVE_SORTED, small.toString(ip("77.135.84.171")));
         assertEquals("", small.toString(ip("0.0.0.0")));
         assertEquals("", small.toString(null));
-
     }
 
     private Network net(String net) {
