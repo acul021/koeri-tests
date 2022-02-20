@@ -24,7 +24,7 @@ public class IPTest {
         assertInvalidIp("0.-0.0.0");
         assertInvalidIp("+12.0.3.0");
         assertInvalidIp("12.0.+3.0");
-        assertInvalidIp("0.0.0.0");
+        assertInvalidIp("0.0.0.0 ");
         assertInvalidIp(" 1.1.1.1");
         assertInvalidIp("1.1 .1.1");
         assertInvalidIp("0.0.0.0.");
