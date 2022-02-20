@@ -45,7 +45,7 @@ class NetworkTest {
 
 
     @Test
-    public void testConstructorWithRootAndChildren() throws ParseException {
+    void testConstructorWithRootAndChildren() throws ParseException {
         IP root = new IP("192.168.178.65");
         List<IP> invalidIPs = new ArrayList<>(Arrays.asList(new IP("192.168.178.65"), new IP("192.168.178.66")));
         List<IP> IPs = new ArrayList<>(Arrays.asList(new IP("192.168.178.64"), new IP("192.168.178.66")));
@@ -61,7 +61,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testParsingConstructor() throws ParseException {
+    void testParsingConstructor() throws ParseException {
         Network smallNet = new Network(SMALL_NET);
         assertEquals(SMALL_NET_SORTED, smallNet.toString(ip("85.193.148.81")));
         assertThrows(ParseException.class, () -> new Network(""));
@@ -90,7 +90,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testList() throws ParseException {
+    void testList() throws ParseException {
         Network net = new Network("(192.168.178.1 192.168.178.0 192.168.178.15 0.0.0.0 29.65.234.123)");
 
         List<IP> temp = net.list();
@@ -107,7 +107,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testHeight() throws ParseException {
+    void testHeight() throws ParseException {
         Network med = new Network(MEDIUM_NET);
         assertEquals(0, med.getHeight(null));
         assertEquals(0, med.getHeight(ip("0.0.0.0")));
@@ -126,7 +126,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testAdd() throws ParseException {
+    void testAdd() throws ParseException {
         Network net = new Network(SMALL_NET);
         assertFalse(net.add(null));
         assertFalse(net.add(new Network(SMALL_NET_SORTED)));
@@ -149,7 +149,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testConnect() throws ParseException {
+    void testConnect() throws ParseException {
         Network net = new Network(SMALL_NET);
         net.add(net("(0.0.0.0 1.1.1.1)"));
         net.add(net("(1.0.0.1 1.0.0.2)"));
@@ -177,7 +177,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testDisconnect() throws ParseException {
+    void testDisconnect() throws ParseException {
         Network net = new Network("(0.0.0.0 1.1.1.1)");
         assertFalse(net.disconnect(ip("0.0.0.0"), ip("1.1.1.1")));
 
@@ -202,7 +202,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testGetLevels() throws ParseException {
+    void testGetLevels() throws ParseException {
         Network med = new Network(SMALL_NET);
         assertIterableEquals(List.of(), med.getLevels(null));
         assertIterableEquals(List.of(), med.getLevels(ip("0.0.0.0")));
@@ -222,7 +222,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         Network net = net(SMALL_NET);
         assertEquals(List.of(), net.getRoute(null, null));
         assertEquals(List.of(), net.getRoute(ip("141.255.1.133"), null));
@@ -240,7 +240,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() throws ParseException {
+    void testEqualsAndHashCode() throws ParseException {
         Network net1 = new Network(MEDIUM_NET);
         Network net2 = new Network(MEDIUM_NET);
         Network net3 = new Network(SMALL_NET);
@@ -260,7 +260,7 @@ class NetworkTest {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    void testToString() throws ParseException {
         Network small = new Network(SMALL_NET);
         assertEquals(SMALL_NET_SORTED, small.toString(ip("85.193.148.81")));
         assertEquals(SMALL_NET_ALTERNATIVE_SORTED_2, small.toString(ip("141.255.1.133")));
