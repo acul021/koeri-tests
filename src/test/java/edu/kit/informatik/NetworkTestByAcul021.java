@@ -248,6 +248,8 @@ class NetworkTest {
         Network net3 = new Network(SMALL_NET);
         Network net4 = new Network(SMALL_NET_ALTERNATIVE);
 
+        assertEquals(net1, net1);
+        assertNotEquals(net1, null);
         assertEquals(net1, net2);
         assertEquals(net2, net1);
         assertEquals(net1.hashCode(), net2.hashCode());
