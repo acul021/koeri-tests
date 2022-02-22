@@ -55,8 +55,6 @@ class NetworkTest {
         assertThrows(RuntimeException.class, () -> new Network(root, invalidIPs));
         assertThrows(RuntimeException.class, () -> new Network(root, ip("0.0.0.0", "0.0.0.0")));
 
-        Arrays.asList("");
-
         Network testNetwork = new Network(root, IPs);
         IPs.clear();
         assertNotEquals(0, testNetwork.list().size());
@@ -79,6 +77,9 @@ class NetworkTest {
         assertThrows(ParseException.class, () -> new Network("(0,0.0.0 1.1.1.1)"));
         assertThrows(ParseException.class, () -> new Network("(0:0.0.0 1.1.1.1)"));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0,1.1.1.1)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 1,1.1.1)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 1.1,1.1)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 1.1.1,1)"));
         assertThrows(ParseException.class, () -> new Network(null));
         assertThrows(ParseException.class, () -> new Network("(0.0.0.0 0.0.0.0)"));
         assertThrows(ParseException.class, () -> new Network("(1.1.1.1 0.0.0.0 0.0.0.0)"));
@@ -89,6 +90,9 @@ class NetworkTest {
         assertThrows(ParseException.class, () -> new Network(("(0.0.0.0 1.1.1.1))")));
         assertThrows(ParseException.class, () -> new Network((")(0.0.0.0 1.1.1.1)")));
         assertThrows(ParseException.class, () -> new Network(("(0.0.0.0 1.1.1.1) (2.2.2.2 1.1.1.1)")));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0.0 1.1.1.1)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 1.1.1.1.1)"));
+        assertThrows(ParseException.class, () -> new Network("(0.0.0.0 1.1.1.1 (2.2.2.2 )(3.3.3.3 4.4.4.4))"));
     }
 
     @Test
@@ -247,6 +251,13 @@ class NetworkTest {
         Network net2 = new Network(MEDIUM_NET);
         Network net3 = new Network(SMALL_NET);
         Network net4 = new Network(SMALL_NET_ALTERNATIVE);
+
+        Network net5 = net("(1.1.1.1 2.2.2.2 3.3.3.3)");
+        Network net6 = net("(3.3.3.3 2.2.2.2 1.1.1.1)");
+
+        assertNotEquals(net5, net6);
+        assertNotEquals(net6, net5);
+//        assertNotEquals(net5.hashCode(), net6.hashCode());
 
         assertEquals(net1, net1);
         assertNotEquals(net1, null);
