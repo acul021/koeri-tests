@@ -240,13 +240,18 @@ class NetworkTest {
         assertEquals(List.of(), net.getRoute(ip("141.255.1.133"), ip("0.0.0.0")));
         assertEquals(List.of(), net.getRoute(ip("0.0.0.0"), ip("141.255.1.133")));
 
-        assertEquals(ip("85.193.148.81", "141.255.1.133", "122.117.67.158"),
+        assertIterableEquals(ip("85.193.148.81", "141.255.1.133", "122.117.67.158"),
             net.getRoute(ip("85.193.148.81"), ip("122.117.67.158")));
-        assertEquals(ip("122.117.67.158", "141.255.1.133", "85.193.148.81", "231.189.0.127", "39.20.222.120"),
+        assertIterableEquals(ip("122.117.67.158", "141.255.1.133", "85.193.148.81", "231.189.0.127", "39.20.222.120"),
             net.getRoute(ip("122.117.67.158"), ip("39.20.222.120")));
+        assertIterableEquals(ip("122.117.67.158", "141.255.1.133", "85.193.148.81"),
+            net.getRoute(ip("122.117.67.158"), ip("85.193.148.81")));
 
         assertTrue(() -> net.add(net("(0.0.0.0 1.1.1.1 2.2.2.2 (3.3.3.3 4.4.4.4))")));
         assertEquals(List.of(), net.getRoute(ip("39.20.222.120"), ip("4.4.4.4")));
+        assertTrue(() -> net.connect(ip("39.20.222.120"), ip("4.4.4.4")));
+        assertIterableEquals(ip("231.189.0.127", "39.20.222.120", "4.4.4.4","3.3.3.3"),
+            net.getRoute(ip("231.189.0.127"), ip("3.3.3.3")));
     }
 
     @Test
